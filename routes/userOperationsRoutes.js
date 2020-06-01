@@ -2,7 +2,6 @@ const Express = require("express");
 const User = require("../models/UserModel");
 const Router = Express.Router();
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 
 //when the user registers
 Router.post("/register", function (req, res, next) {
