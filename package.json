@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "dev": "concurrently \"npm start --prefix client\" \"npm run server",
     "test": "mocha --recursive --exit"
   },
   "keywords": [],
@@ -15,10 +18,14 @@
     "chai-http": "^4.3.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-validator": "^6.6.1",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^7.2.0",
     "mongoose": "^5.9.16",
-    "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.4"
   }
 }
