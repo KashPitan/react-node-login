@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config();
 
 const mongoose = require("mongoose");
 const Uri = process.env.DB_CLOUD;
@@ -9,7 +10,6 @@ const userOperationsRoutes = require("./routes/userOperationsRoutes");
 
 const BodyParser = require("body-parser");
 
-dotenv.config();
 console.log(localDB);
 console.log(process.env.PORT);
 
@@ -19,9 +19,7 @@ const MongoOptions = {
   useFindAndModify: true,
 };
 
-mongoose
-  .connect("mongodb://localhost/users", MongoOptions)
-  .catch((err) => console.log(err));
+mongoose.connect(localDB, MongoOptions).catch((err) => console.log(err));
 
 const App = express();
 

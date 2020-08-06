@@ -3,11 +3,9 @@ import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
 import axios from "axios";
 
-const Registration = () => {
+const Login = () => {
   const [formDetails, setFormDetails] = useState({
-    username: "",
     password: "",
-    passwordConfirm: "",
     email: "",
   });
 
@@ -17,16 +15,17 @@ const Registration = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("test");
     try {
-      let res = await axios.post("/user/register", formDetails);
-      console.log(res.json());
+      let res = await axios.post("/user/login", formDetails);
       if (res.status != 200) {
         console.log(res.json());
+        console.log("terst");
         // M.toast({ html: res.msg });
       }
+      console.log(res.json());
       M.toast({ html: res.msg });
     } catch (err) {
+      console.log("klmak");
       console.log(err);
     }
   };
@@ -39,22 +38,21 @@ const Registration = () => {
   return (
     <>
       <div className="form-container">
-        <h1>Registration</h1>
+        <h1>Login</h1>
         <form className="col s12">
           <div className="form-group">
             <div className="input-field col s6">
-              <i className="material-icons prefix">account_circle</i>
+              <i className="material-icons prefix">email</i>
               <input
-                placeholder="Placeholder"
-                name="username"
-                id="username"
-                type="text"
+                id="email"
+                name="email"
+                type="email"
                 className="validate"
-                value={formDetails.username}
+                value={formDetails.email}
                 onChange={onChange}
                 required
               ></input>
-              <label htmlFor="username">Username:</label>
+              <label htmlFor="email">Email</label>
             </div>
           </div>
           <div className="form-group">
@@ -71,36 +69,6 @@ const Registration = () => {
               ></input>
               <label htmlFor="password">Password</label>
             </div>
-            <div className="form-group">
-              <div className="input-field col s6">
-                <i className="material-icons prefix">lock</i>
-                <input
-                  id="passwordConfirm"
-                  name="passwordConfirm"
-                  type="password"
-                  className="validate"
-                  value={formDetails.passwordConfirm}
-                  onChange={onChange}
-                  required
-                ></input>
-                <label htmlFor="passwordConfirm">Confirm Password</label>
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="input-field col s6">
-                <i className="material-icons prefix">email</i>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  className="validate"
-                  value={formDetails.email}
-                  onChange={onChange}
-                  required
-                ></input>
-                <label htmlFor="email">Email</label>
-              </div>
-            </div>
             <button
               className="btn waves-effect waves-light"
               type="Submit"
@@ -116,4 +84,4 @@ const Registration = () => {
     </>
   );
 };
-export default Registration;
+export default Login;
