@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const { check, body, validationResult } = require("express-validator");
 const Bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
+const validatePasswords = require("../middleware/validatePasswords");
 
 const auth = require("../middleware/auth");
 
@@ -21,21 +22,24 @@ Router.post(
       "password",
       "Please enter a password with at least 6 characters"
     ).isLength({ min: 6 }),
+    validatePasswords,
   ],
   async (req, res, next) => {
     //store error messages in array
     const errors = validationResult(req);
-
+    console.log(req.body);
     //if there are errors return error array
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).send({ errors: errors.array() });
     }
 
     const { username, email, password } = req.body;
     try {
       let user = await User.findOne({ email });
       if (user) {
-        return res.status(400).json({ msg: "Account already exists" });
+        return res.status(400).send({
+          errors: [{ msg: "Account already exists" }],
+        });
       }
 
       //creates a user if the details given are valid
@@ -49,11 +53,12 @@ Router.post(
       //create token with 1 hour expiration
       jwt.sign(payload, jwtSecret, { expiresIn: 360000 }, (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        //sends the token back as the response
+        res.status(200).send({ token, msg: "User Created" });
       });
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error");
+      res.status(500).send({ errors: [{ msg: "Server Error" }] });
     }
   }
 );
@@ -68,7 +73,7 @@ Router.post(
     const errors = validationResult(req);
     //if there are errors return error array
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).send({ errors: errors.array() });
     }
     try {
       const { email, password } = req.body;
@@ -76,9 +81,9 @@ Router.post(
       //checks to see if the user with the input email exists
       let user = await User.findOne({ email });
       if (!user) {
-        return res
-          .status(400)
-          .json({ msg: "Account with entered email does not exist" });
+        return res.status(400).send({
+          errors: [{ msg: "Account with entered email does not exist" }],
+        });
       }
       //checks if the password entered matches the user found
       let passwordMatch = Bcrypt.compareSync(password, user.password);
@@ -94,14 +99,16 @@ Router.post(
         //create token with 1 hour expiration
         jwt.sign(payload, "secret", { expiresIn: 360000 }, (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          //send the token as the response
+          res.status(200).send({ token, msg: "Login Successful" });
         });
       } else {
-        return res.status(400).json({ msg: "Password is incorrect" });
+        return res
+          .status(400)
+          .send({ errors: [{ msg: "Password is incorrect" }] });
       }
     } catch (err) {
-      console.log(err);
-      res.status(500).send("Error");
+      res.status(500).send({ errors: [{ msg: "Server Error" }] });
     }
   }
 );

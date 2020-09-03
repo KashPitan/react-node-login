@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const Uri = process.env.DB_CLOUD;
 const localDB = process.env.DB_LOCAL;
 
-const userOperationsRoutes = require("./routes/userOperationsRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const BodyParser = require("body-parser");
 
@@ -27,7 +27,7 @@ const App = express();
 App.use(BodyParser.json());
 
 //routes from routes folder
-App.use("/user", userOperationsRoutes);
+App.use("/user", userRoutes);
 
 App.listen(process.env.PORT || 4000, function () {
   if (process.env.PORT) {

@@ -17,17 +17,18 @@ const Registration = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("test");
     try {
       let res = await axios.post("/user/register", formDetails);
-      console.log(res.json());
+      console.log(res);
       if (res.status != 200) {
-        console.log(res.json());
-        // M.toast({ html: res.msg });
+        M.toast({ html: res.data.msg });
       }
-      M.toast({ html: res.msg });
+      M.toast({ html: res.data.msg, displayLength: 3000 });
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
+      err.response.data.errors.forEach((element) => {
+        M.toast({ html: element.msg });
+      });
     }
   };
 

@@ -18,15 +18,15 @@ const Login = () => {
     try {
       let res = await axios.post("/user/login", formDetails);
       if (res.status != 200) {
-        console.log(res.json());
-        console.log("terst");
-        // M.toast({ html: res.msg });
+        M.toast({ html: res.msg });
       }
       console.log(res.json());
       M.toast({ html: res.msg });
     } catch (err) {
-      console.log("klmak");
-      console.log(err);
+      console.log(err.response.data);
+      err.response.data.errors.forEach((element) => {
+        M.toast({ html: element.msg });
+      });
     }
   };
 
