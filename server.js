@@ -9,9 +9,7 @@ const localDB = process.env.DB_LOCAL;
 const userRoutes = require("./routes/userRoutes");
 
 const BodyParser = require("body-parser");
-
-console.log(localDB);
-console.log(process.env.PORT);
+const cookieParser = require("cookie-parser");
 
 const MongoOptions = {
   useUnifiedTopology: true,
@@ -25,6 +23,9 @@ const App = express();
 
 //parse body of api routes
 App.use(BodyParser.json());
+
+//parse/read the cookies sent with the requests
+App.use(cookieParser());
 
 //routes from routes folder
 App.use("/user", userRoutes);

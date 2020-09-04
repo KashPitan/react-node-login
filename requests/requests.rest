@@ -1,0 +1,33 @@
+GET http://localhost:3000/user/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY1MjFmZGU2YmRkMmRjMDBjOTgwMDQ0In0sImlhdCI6MTU5OTIxNzcyNCwiZXhwIjoxNTk5NTc3NzI0fQ.VwqzoRhjd9CPlTWoS1I3kwOVKffVyx_c4YLwdOgAdGo
+
+###
+
+POST  http://localhost:3000/user/login
+Content-Type:application/json
+
+{
+    "password": "test123",
+    "email": "Kash@test1234.com"  
+}
+
+###
+
+POST  http://localhost:3000/user/token
+Content-Type:application/json
+
+{
+    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY1MjFmZGU2YmRkMmRjMDBjOTgwMDQ0In0sImlhdCI6MTU5OTIxODc1NH0.bia_ZULXaWUxO0gsPfi3BjM30prl5M0lkMovHPbIn98"
+}
+
+###
+
+POST  http://localhost:3000/user/register
+Content-Type:application/json
+
+{
+    "username": "Kash",
+    "password": "test123",
+    "passwordConfirm":"test123",  
+    "email": "Kash@test1234.com"  
+}
